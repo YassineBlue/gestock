@@ -1,5 +1,10 @@
 <?php 
 require('config.php');
+session_start();
+// if(!isset($_SESSION['user']) || $_SESSION['user'] !=="admin"){
+//     header("Location:login.php");
+//     exit;
+// }
 $sql = "select * from produit";
 $res = $cnx->query($sql); //execution de requette
 $produits = $res->fetchAll(PDO::FETCH_ASSOC);
@@ -11,16 +16,22 @@ $produits = $res->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Produits</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header class="px-3 py-3 bg-black text-white d-flex justify-content-between align-items-center">
-        <a href="accueil.php">
+        <a href="index.php">
         <h2 class="logo">Gestock</h2>
         </a>
         <div class="d-flex gap-5 justify-content-between ">
-            <a href="ajout_form.php" class="bg-danger px-4 ">Ajouter</a>
-            <a href="lister.php" class="bg-danger px-4">Produits</a>
+            <a href="ajout_form.php" class="bg-white text-dark px-4 ">Ajouter</a>
+            <?php if (isset($_SESSION['user'])): ?>
+             <a href="lister.php" class="bg-danger px-4 text-white">Produits</a>
+            <?php endif; ?>
+            <a href="login.php" class="bg-white text-dark px-4 ">Se connecter</a>
+            <?php if (isset($_SESSION['user'])): ?>
+             <a href="logout.php" class="bg-dark px-4 text-white">Logout</a>
+            <?php endif; ?>
         </div>
     </header>
     <div class="container-fluid text-center mt-5">
@@ -31,7 +42,12 @@ $produits = $res->fetchAll(PDO::FETCH_ASSOC);
             <th>Désignation</th>
             <th>Prix Unitaire</th>
             <th>Stock</th>
-            <th>Actions</th>
+            <?php 
+            if(isset($_SESSION['user']) && $_SESSION['user']==='admin'){
+                echo"<th>Actions</th>";
+            }
+            ?>
+            
         </thead>
         <tbody>
             <?php foreach($produits as $p):?>
@@ -40,7 +56,12 @@ $produits = $res->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= $p['Designation']; ?></td>
                     <td><?= $p['Prix_Unitaire'] ;?></td>
                     <td><?= $p['stock']; ?></td>
-                    <td><a href="../core/delete.php?code=<?=$p['Code_produit']?>" class="btn btn-sm btn-danger">Supprimer</a></td>
+                    <?php 
+                    if(isset($_SESSION['user']) && $_SESSION['user'] === 'admin'){
+                        echo "<td><a href='delete.php?code=".$p["Code_produit"]."' class='btn btn-sm btn-danger'>Supprimer</a>";
+                        echo "<a href='ajout_form.php?code=".$p["Code_produit"]."' class='btn btn-sm btn-warning ms-2'>Modifier</a></td>";
+                    }
+                    ?>
                 </tr>
             <?php endforeach;?>
         </tbody>
@@ -50,7 +71,7 @@ $produits = $res->fetchAll(PDO::FETCH_ASSOC);
     <footer class="d-flex p-3 justify-content-around align-items-center">
     <div class="">&copy; 2026 Gestock Développé par Yassine </div>
     <div class="d-flex gap-5">
-        <a href="accueil.php">Accueil</a> |
+        <a href="index.php">Accueil</a> |
         <a href="lister.php">Produits</a> |
         <a href="ajout_form.php">Ajouter</a>
     </div>
