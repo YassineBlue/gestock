@@ -1,45 +1,52 @@
 # Gestock
 
-Gestock is a PHP & MySQL stock management system with admin authentication and protected CRUD operations for managing products.
+Gestock is a simple stock management system built with PHP and MySQL.
+It helps manage products with secure admin access and basic CRUD operations.
 
 ---
 
 ## Features
-- Admin login (session-based authentication)
-- Role-based access control
-- Add products
-- List products
-- Edit products
-- Delete products
-- Form validation and feedback messages
+
+* Admin login system
+* Protected dashboard
+* Add products
+* Edit products
+* Delete products
+* Product listing
+* Session-based validation
+* Feedback messages
 
 ---
 
-## Tech Stack
-- PHP (procedural)
-- MySQL
-- Bootstrap 5
-- HTML / CSS
-- Sessions
+## Built With
+
+* PHP
+* MySQL
+* Bootstrap 5
+* HTML / CSS
 
 ---
 
-## Structure
-- `index.php` → dashboard
-- `login.php` → authentication
-- `logout.php` → session destroy
-- `ajout_form.php` → add product
-- `lister.php` → list products
-- `edit.php` → edit product
-- `delete.php` → delete product
-- `validation.php` → form processing
-- `config.php` → database connection
-- `css/` → styles
+## Project Structure
+
+* `index.php` → dashboard
+* `login.php` → admin login
+* `logout.php` → logout session
+* `ajout_form.php` → add product form
+* `lister.php` → product list
+* `edit.php` → update products
+* `delete.php` → remove products
+* `validation.php` → form handling
+* `config.php` → database connection
+* `css/` → styles
 
 ---
 
-## Setup
+## Installation
+
 1. Import `stock.sql` into MySQL
-2. Configure `config.php`
-3. Run on XAMPP/WAMP
-4. Open `login.php`
+2. Update database settings in `config.php`
+3. Run the project using XAMPP or WAMP
+4. Open `login.php` in your browser
+
+---
